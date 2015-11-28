@@ -1,0 +1,6 @@
+/api/app/cache/dev
+/api/app/cache/prod
+/api/app/logs/dev.log
+/api/vendor
+/api/web/bundles
+/.idea

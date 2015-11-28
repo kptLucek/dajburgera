@@ -1,0 +1,3 @@
+burger:
+    resource: "@AppBundle/Controller/DefaultController.php"
+    type:     rest

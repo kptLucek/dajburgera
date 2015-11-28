@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Restaurant;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,28 +36,43 @@ class DefaultController extends FOSRestController
      */
     public function putBurgerAction(Request $request)
     {
-        $postParams = $request->request->all();
-        $validator = $this->get('validator');
-        $propertyAccessor = $this->get('property_accessor');
-        $entry = new Restaurant();
-        foreach ($postParams as $key => $value) {
-            if (false === $propertyAccessor->isWritable($entry, $key)) {
+        try {
+            $postParams = $request->request->all();
+            $validator = $this->get('validator');
+            $propertyAccessor = $this->get('property_accessor');
+            $entry = new Restaurant();
+            foreach ($postParams as $key => $value) {
+                if (false === $propertyAccessor->isWritable($entry, $key)) {
+                    return $this->handleView($this->view([
+                        'status' => 'error',
+                        'code' => Response::HTTP_METHOD_NOT_ALLOWED,
+                        'message' => sprintf('Property "%s" is not recognized.', $key)
+                    ]));
+                }
+                $propertyAccessor->setValue($entry, $key, $value);
+                $propertyValid = $validator->validateProperty($entry, $key);
+                if (0 < $propertyValid->count()) {
+                    return $this->handleView($this->view($propertyValid));
+                }
+            }
+            try {
+                $em = $this->get('doctrine.orm.default_entity_manager');
+                $em->persist($entry);
+                $em->flush($entry);
+            } catch (UniqueConstraintViolationException $exception) {
                 return $this->handleView($this->view([
                     'status' => 'error',
-                    'code' => Response::HTTP_METHOD_NOT_ALLOWED,
-                    'message' => sprintf('Property "%s" is not recognized.', $key)
+                    'code' => Response::HTTP_BAD_REQUEST,
+                    'message' => 'Already in database.'
                 ]));
             }
-            $propertyAccessor->setValue($entry, $key, $value);
-            $propertyValid = $validator->validateProperty($entry, $key);
-            if (0 < $propertyValid->count()) {
-                return $this->handleView($this->view($propertyValid));
-            }
+        }catch(\Exception $e){
+            return $this->handleView($this->view([
+                'status' => 'error',
+                'code' => Response::HTTP_BAD_REQUEST,
+                'message' => 'Unknown error :).'
+            ]));
         }
-        $em = $this->get('doctrine.orm.default_entity_manager');
-        $em->persist($entry);
-        $em->flush($entry);
-
         return $this->handleView($this->view([
             'status' => 'ok',
             'code' => Response::HTTP_OK

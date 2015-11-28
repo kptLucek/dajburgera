@@ -283,5 +283,33 @@ class Restaurant
     {
         return $this->country;
     }
-}
+    /**
+     * @var string
+     */
+    private $location;
 
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return Restaurant
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+}

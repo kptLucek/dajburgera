@@ -1,0 +1,16 @@
+{
+	"burgerpoints":[
+	    {
+	    	"city":"Krakow",
+	    	"lang":"123"
+	    	},
+	    {
+	    	"city":"Warszawa",
+	    	"lang":"421"
+	    	},
+	    {
+	    	"city":"Lublin",
+	    	"lang":"542"
+	    }
+	]
+}

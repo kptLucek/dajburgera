@@ -3,8 +3,8 @@
 
 	angular.module('myapp').controller('mainCtrl', mainCtrl);
 
-	function mainCtrl(mapService) {
-		mapService.mapService();
+	function mainCtrl() {
+
 	}
 
 })();

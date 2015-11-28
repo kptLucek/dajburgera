@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Restaurant;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Elastica\Filter\GeoDistance;
+use Elastica\Query;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +22,31 @@ class DefaultController extends FOSRestController
      */
     public function getBurgersAction(Request $request)
     {
+        $query = $request->query;
+
+        $limit = $query->get('limit', 3);
+        $lon = $query->get('lon');
+        $lat = $query->get('lat');
+        $finder = $this->get('fos_elastica.finder.burger.restaurant');
+        if(null === $lon || null === $lat){
+            return $this->handleView($this->view([
+                'status' => 'error',
+                'code' => Response::HTTP_BAD_REQUEST,
+                'message' => 'Param lon/lat is missing.'
+            ]));
+        }
+        $filter = new GeoDistance('location', array('lat' => $lat,
+            'lon' => $lon), '5000m');
+        $query = new Query\Filtered(new Query\MatchAll(), $filter);
+//
+//        $data = $query->toArray();
+//        $query->setQuery($query->getQuery());
+
+        // $results = $index->search($query
         $view = $this->view([
             'status' => 'ok',
             'code' => 200,
-//            'data' => $this->get('fos_elastica.finder.burger.restaurant')->find();
+            'data' => $finder->find($query)
         ]);
         return $this->handleView($view);
     }
@@ -59,8 +82,7 @@ class DefaultController extends FOSRestController
                 $em = $this->get('doctrine.orm.default_entity_manager');
                 $em->persist($entry);
                 $em->flush($entry);
-                $elastica = $this->get('fos_elastica.index.burger.restaurant');
-                $elastica->addObject($entry);
+                $this->get('fos_elastica.object_persister.burger.restaurant')->insertOne($entry);
             } catch (UniqueConstraintViolationException $exception) {
                 return $this->handleView($this->view([
                     'status' => 'error',

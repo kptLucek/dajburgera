@@ -5,7 +5,7 @@ fos_rest:
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
     format_listener:
         rules:
-            - { path: '^/', priorities: ['json', 'jsonp',  'xml'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: ['json', 'jsonp'], fallback_format: json, prefer_extension: false }
     view:
         mime_types:
             jsonp: ['application/javascript+jsonp']

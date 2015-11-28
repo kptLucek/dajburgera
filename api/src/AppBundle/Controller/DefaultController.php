@@ -59,6 +59,8 @@ class DefaultController extends FOSRestController
                 $em = $this->get('doctrine.orm.default_entity_manager');
                 $em->persist($entry);
                 $em->flush($entry);
+                $elastica = $this->get('fos_elastica.index.burger.restaurant');
+                $elastica->addObject($entry);
             } catch (UniqueConstraintViolationException $exception) {
                 return $this->handleView($this->view([
                     'status' => 'error',

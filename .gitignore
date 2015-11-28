@@ -3,4 +3,5 @@
 /api/app/logs/dev.log
 /api/vendor
 /api/web/bundles
+/api/bin
 /.idea

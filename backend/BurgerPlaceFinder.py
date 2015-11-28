@@ -96,5 +96,5 @@ def getPlaces(city, number):
   #printBurgerPlaces(places)
   return places
 
-getPlaces("warsaw", 40);
+
 

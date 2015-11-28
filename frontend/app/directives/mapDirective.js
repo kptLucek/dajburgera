@@ -18,10 +18,7 @@
 
         vm.displayMap = displayMap;
         displayMap();
-
-        mapService.getData().then(function(resp){
-            console.log(resp.data.burgerpoints[0].lang);
-        });
+        getCurrentPos();
 
         function displayMap() {
             google.maps.event.addDomListener(window, 'load');
@@ -30,11 +27,11 @@
         function getCurrentPos () {
             navigator.geolocation.getCurrentPosition(showPosition);
         }
-        getCurrentPos();
 
         function showPosition(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
+
             var myLatlng = new google.maps.LatLng(lat,lon);
 
             var mapOptions = {
@@ -48,28 +45,22 @@
             });
             userPos.setMap(map);
 
-
             $http.get('http://api.dajburgera.lucek.com.pl/get-burgers.json?lon='+lon+'&lat='+lat+'&limit=30')
                 .then(successCallback);
 
-            image = 'burger_pin.png'
+            image = 'burger_pin.png';
             function successCallback(data) {
-                console.log(data.data);
                 for(i=1;i<data.data.data.length;i++) {
-                    var a = new google.maps.Marker({
+                    var nameStreet = data.data.data[i].name + " " + data.data.data[i].street;
+                    var newMarker = new google.maps.Marker({
                         position: new google.maps.LatLng(data.data.data[i].lat,data.data.data[i].lon),
                         icon: image,
-                        // title: data.data.data[i].name + " " + data.data.data[i].street
+                        title: nameStreet.concat()
                     });
-                    a.setMap(map);
+                    newMarker.setMap(map);
                 }
             }
-
         }
-
-
-
     }
-
 
 })();

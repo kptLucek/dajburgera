@@ -1,0 +1,43 @@
+body {
+	background: url(bg.jpg);
+	background-size:cover;
+}
+
+#button a {
+	display: block;
+	font-family: 'Oswald', sans-serif;
+	text-align: center;
+	font-size: 270%;
+	background: rgba(255,255,255,0.4);
+	width: 320px;
+	height: 100px;
+	line-height: 100px;
+	margin: 0 auto;
+	text-decoration: none;
+	color: #000;
+	border: 4px solid #000;
+}
+
+.button a:hover {
+	text-decoration: none;
+	color: #a9522e;
+}
+
+
+.img-responsive {
+	margin: 0 auto;
+	padding-top: 50px;
+	padding-bottom: 100px;
+}
+
+
+
+.rotate {
+
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -2,6 +2,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>DajBurgera</title>
+	<link rel="stylesheet" type="text/css" href="assets/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
+
 </head>
 <body >
 	<style>
@@ -11,15 +17,16 @@
 		}
 	</style>
 	<div ng-controller="mainCtrl">
-		<!-- <div id="map"></div> -->
+
 		<map-directive></map-directive>
 	</div>
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
 
-	<script src="bower_components/angular/angular.js"></script>
-	<script src="app/app.js"></script>
 	<script src="app/services/mapService.js"></script>
 	<script src="app/directives/mapDirective.js"></script>
+	<ng-include src="'loader.html'"></ng-include>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="app/app.js"></script>
 
 </body>
 </html>

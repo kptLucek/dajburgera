@@ -3,7 +3,7 @@ import sys
 import re
 import urllib2
 
-#fileName = sys.argv[1]
+from BurgerPlace import BurgerPlace
 
 kStartAddressTag = "<address>"
 kEndAddressTag = "</address>"
@@ -16,19 +16,6 @@ def getYelpPage(city, offset):
   yelpURL = kYelpBaseURL + city + "&start=" + str(offset)
   request = urllib2.urlopen(yelpURL)
   return request.read()
-
-class BurgerPlace:
-  def __init__(self, addr, name):
-    splitted = addr.split(",")
-    self.addr = addr
-    self.street = splitted[0].rsplit(' ', 1)[0]
-    self.bdgNumber = splitted[0].rsplit(None, 1)[-1]
-    self.code = splitted[1].strip().split(' ')[0]
-    self.city = splitted[1].strip().split(' ')[1]
-    self.country = splitted[2].strip()
-    self.name = name
-  def __str__(self):
-    return self.name + ", " + self.addr;
  
 def toBurgerPlaces(addresses, names):
   result = []
@@ -106,7 +93,7 @@ def getPlaces(city, number):
   addresses, names = getAddresses(city, number)
   addresses = cleanAddresses(addresses)
   places = toBurgerPlaces(addresses, names)
-  printBurgerPlaces(places)
+  #printBurgerPlaces(places)
   return places
 
 getPlaces("warsaw", 40);

@@ -1,0 +1,83 @@
+AppBundle\Entity\Restaurant:
+    type: entity
+    table: restaurant
+    indexes:
+        search:
+            columns:
+                - lon
+                - lat
+    uniqueConstraints:
+        unique:
+            columns:
+                - lon
+                - lat
+        unique2:
+            columns:
+                - name
+                - postal_code
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        lon:
+            type: decimal
+            nullable: false
+            precision: 12
+            scale: 3
+        lat:
+            type: decimal
+            nullable: false
+            precision: 12
+            scale: 3
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        city:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        street:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        postalCode:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: postal_code
+        buildingNumber:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: building_number
+        apartmentNumber:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: apartment_number
+        country:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

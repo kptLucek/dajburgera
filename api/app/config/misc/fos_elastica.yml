@@ -1,0 +1,17 @@
+fos_elastica:
+    clients:
+        default: { host: lucek.com.pl, port: 9200 }
+    serializer: ~
+    indexes:
+        burger:
+            types:
+                restaurant:
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Restaurant
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+                    serializer:
+                        groups: [elastica, Default]

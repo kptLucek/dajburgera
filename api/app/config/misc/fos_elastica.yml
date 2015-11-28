@@ -19,7 +19,6 @@ fos_elastica:
                         location:
                             dynamic: 'strict'
                             type: geo_point
-                            property: [ 'lon', 'lat' ]
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\Restaurant

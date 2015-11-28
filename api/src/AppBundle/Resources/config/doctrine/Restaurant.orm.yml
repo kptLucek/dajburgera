@@ -80,4 +80,10 @@ AppBundle\Entity\Restaurant:
             length: 255
             options:
                 fixed: false
+        location:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
     lifecycleCallbacks: {  }

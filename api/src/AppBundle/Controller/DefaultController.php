@@ -28,7 +28,7 @@ class DefaultController extends FOSRestController
         $lon = $query->get('lon');
         $lat = $query->get('lat');
         $finder = $this->get('fos_elastica.finder.burger.restaurant');
-        if(null === $lon || null === $lat){
+        if (null === $lon || null === $lat) {
             return $this->handleView($this->view([
                 'status' => 'error',
                 'code' => Response::HTTP_BAD_REQUEST,
@@ -78,6 +78,7 @@ class DefaultController extends FOSRestController
                     return $this->handleView($this->view($propertyValid));
                 }
             }
+            $entry->setLocation(implode(',', [$entry->getLon(), $entry->getLat()]));
             try {
                 $em = $this->get('doctrine.orm.default_entity_manager');
                 $em->persist($entry);
@@ -90,7 +91,7 @@ class DefaultController extends FOSRestController
                     'message' => 'Already in database.'
                 ]));
             }
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->handleView($this->view([
                 'status' => 'error',
                 'code' => Response::HTTP_BAD_REQUEST,

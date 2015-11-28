@@ -27,6 +27,7 @@ class DefaultController extends FOSRestController
         $limit = $query->get('limit', 3);
         $lon = $query->get('lon');
         $lat = $query->get('lat');
+        $distance = $query->get('distance', '5000m');
         $finder = $this->get('fos_elastica.finder.burger.restaurant');
         if (null === $lon || null === $lat) {
             return $this->handleView($this->view([
@@ -36,13 +37,9 @@ class DefaultController extends FOSRestController
             ]));
         }
         $filter = new GeoDistance('location', array('lat' => $lat,
-            'lon' => $lon), '5000m');
+            'lon' => $lon), $distance);
         $query = new Query\Filtered(new Query\MatchAll(), $filter);
-//
-//        $data = $query->toArray();
-//        $query->setQuery($query->getQuery());
 
-        // $results = $index->search($query
         $view = $this->view([
             'status' => 'ok',
             'code' => 200,
@@ -78,7 +75,7 @@ class DefaultController extends FOSRestController
                     return $this->handleView($this->view($propertyValid));
                 }
             }
-            $entry->setLocation(implode(',', [$entry->getLon(), $entry->getLat()]));
+            $entry->setLocation(implode(',', [$entry->getLat(), $entry->getLon()]));
             try {
                 $em = $this->get('doctrine.orm.default_entity_manager');
                 $em->persist($entry);

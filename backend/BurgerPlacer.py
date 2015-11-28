@@ -7,6 +7,7 @@ import urllib2
 
 kStartAddressTag = "<address>"
 kEndAddressTag = "</address>"
+kNameTag = "<span class=\"indexed-biz-name\">"
 kOffsetStep = 10
 
 kYelpBaseURL = "http://www.yelp.com/search?find_desc=burgers&find_loc="
@@ -17,7 +18,7 @@ def getYelpPage(city, offset):
   return request.read()
 
 class BurgerPlace:
-  def __init__(self, addr):
+  def __init__(self, addr, name):
     splitted = addr.split(",")
     self.addr = addr
     self.street = splitted[0].rsplit(' ', 1)[0]
@@ -25,30 +26,34 @@ class BurgerPlace:
     self.code = splitted[1].strip().split(' ')[0]
     self.city = splitted[1].strip().split(' ')[1]
     self.country = splitted[2].strip()
+    self.name = name
   def __str__(self):
-    return self.addr;
+    return self.name + ", " + self.addr;
  
-def toBurgerPlaces(addresses):
+def toBurgerPlaces(addresses, names):
   result = []
-  for addr in addresses:
+  for addr, name in zip(addresses, names):
     try:
-      result.append(BurgerPlace(addr))
+      result.append(BurgerPlace(addr, name))
     except:
-      print("skipped: " + addr)
+      print("skipped: " + name + ", " + addr)
     
   return result
   
 def getAddresses(city, number):
   addresses = []
+  names = []
+
+  currentAddress = ""
+  name = ""
 
   readAddress = False
-  currentAddress = ""
 
   offset = 0
 
   while (number > 0):
     f = getYelpPage(city, offset)
-
+    
     for line in f.split('\n'):
       if kStartAddressTag in line:
         readAddress = True
@@ -56,8 +61,14 @@ def getAddresses(city, number):
 
       if kEndAddressTag in line:
         addresses.append(currentAddress)
+	names.append(name)
         currentAddress = ""
         readAddress = False
+        continue
+
+      if kNameTag in line:
+        result = re.match("(.*)<span>(.*)</span>(.*)", line)
+        name = result.group(2)
         continue
 
       if readAddress:
@@ -66,7 +77,7 @@ def getAddresses(city, number):
     offset += kOffsetStep
     number -= kOffsetStep
 
-  return addresses
+  return (addresses, names)
 
 def cleanAddresses(addresses):
   def checkAddress(address):
@@ -87,15 +98,16 @@ def printAddresses(addresses):
   print("\n".join(addresses))
 
 def printBurgerPlaces(places):
-  print("\n".join(places))
+  for place in places:
+    print place
     
 
 def getPlaces(city, number):
-  addresses = getAddresses(city, number)
+  addresses, names = getAddresses(city, number)
   addresses = cleanAddresses(addresses)
-  burgerPlaces = toBurgerPlaces(addresses)
-  printBurgerPlaces(addresses)
-  return burgerPlaces
+  places = toBurgerPlaces(addresses, names)
+  printBurgerPlaces(places)
+  return places
 
 getPlaces("warsaw", 40);
 

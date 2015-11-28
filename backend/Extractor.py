@@ -23,8 +23,12 @@ if __name__ == "__main__":
 	for town in ffile:
 		places = getPlaces(town.strip(), 300)
 		for p in places:
-			l, d = get_geo(p.bdgNumber, p.street, p.city, p.country)
-			p.lat, p.lng = l, d
-			r = requests.put(put_url, burgerPlaceToJSON(p))
-			print burgerPlaceToJSON(p)
-			print r
+			try:
+				l, d = get_geo(p.bdgNumber, p.street, p.city, p.country)
+				p.lat, p.lng = l, d
+				r = requests.put(put_url, burgerPlaceToJSON(p))
+				print burgerPlaceToJSON(p)
+				print r
+			except:
+				print "No geolocation for"
+				print p

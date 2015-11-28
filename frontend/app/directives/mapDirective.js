@@ -52,11 +52,13 @@
             $http.get('http://api.dajburgera.lucek.com.pl/get-burgers.json?lon='+lon+'&lat='+lat+'&limit=30')
                 .then(successCallback);
 
+            image = 'burger_pin.png'
             function successCallback(data) {
                 console.log(data.data);
                 for(i=1;i<data.data.data.length;i++) {
                     var a = new google.maps.Marker({
                         position: new google.maps.LatLng(data.data.data[i].lat,data.data.data[i].lon),
+                        icon: image,
                         // title: data.data.data[i].name + " " + data.data.data[i].street
                     });
                     a.setMap(map);

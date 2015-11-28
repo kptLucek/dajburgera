@@ -8,5 +8,7 @@ class BurgerPlace:
     self.city = splitted[1].strip().split(' ')[1]
     self.country = splitted[2].strip()
     self.name = name
+    self.lat = 0.0
+    self.lgn = 0.0
   def __str__(self):
-    return self.name + ", " + self.addr;
+    return self.name + ", " + self.addr + " " + str(self.lat) + ", " + str(self.lgn);

@@ -7,6 +7,7 @@ import urllib2
 
 kStartAddressTag = "<address>"
 kEndAddressTag = "</address>"
+kOffsetStep = 10
 
 kYelpBaseURL = "http://www.yelp.com/search?find_desc=burgers&find_loc="
 
@@ -37,29 +38,33 @@ def toBurgerPlaces(addresses):
     
   return result
   
-  
 def getAddresses(city, number):
   addresses = []
 
   readAddress = False
   currentAddress = ""
 
-  f = getYelpPage(city, 10)
+  offset = 0
 
-  for line in f.split('\n'):
-    if kStartAddressTag in line:
-      readAddress = True
-      continue
+  while (number > 0):
+    f = getYelpPage(city, offset)
 
-    if kEndAddressTag in line:
-      addresses.append(currentAddress)
-      currentAddress = ""
-      readAddress = False
-      continue
+    for line in f.split('\n'):
+      if kStartAddressTag in line:
+        readAddress = True
+        continue
 
-    if readAddress:
-      currentAddress += line.strip()
-      continue
+      if kEndAddressTag in line:
+        addresses.append(currentAddress)
+        currentAddress = ""
+        readAddress = False
+        continue
+
+      if readAddress:
+        currentAddress += line.strip()
+        continue
+    offset += kOffsetStep
+    number -= kOffsetStep
 
   return addresses
 
@@ -86,10 +91,11 @@ def printBurgerPlaces(places):
     
 
 def getPlaces(city, number):
-  addresses = getAddresses("warsaw", 10)
+  addresses = getAddresses(city, number)
   addresses = cleanAddresses(addresses)
   burgerPlaces = toBurgerPlaces(addresses)
-  #printBurgerPlaces(addresses)
+  printBurgerPlaces(addresses)
   return burgerPlaces
-  
+
+getPlaces("warsaw", 40);
 

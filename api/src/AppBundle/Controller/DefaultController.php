@@ -43,7 +43,7 @@ class DefaultController extends FOSRestController
         $view = $this->view([
             'status' => 'ok',
             'code' => 200,
-            'data' => $finder->find($query)
+            'data' => $finder->find($query, $limit)
         ]);
         return $this->handleView($view);
     }

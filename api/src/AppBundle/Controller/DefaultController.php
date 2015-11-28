@@ -36,10 +36,9 @@ class DefaultController extends FOSRestController
                 'message' => 'Param lon/lat is missing.'
             ]));
         }
-        $filter = new GeoDistance('location', array('lat' => $lat,
-            'lon' => $lon), $distance);
-        $query = new Query\Filtered(new Query\MatchAll(), $filter);
-
+        $filter = new GeoDistance('location', array('lat' => $lat, 'lon' => $lon), $distance);
+        $namedQuery = new Query\MatchAll();
+        $query = new Query\Filtered($namedQuery, $filter);
         $view = $this->view([
             'status' => 'ok',
             'code' => 200,

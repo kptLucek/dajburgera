@@ -3,11 +3,18 @@ fos_rest:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json', 'jsonp',  'xml'], fallback_format: json, prefer_extension: false }
     view:
+        mime_types:
+            jsonp: ['application/javascript+jsonp']
+            json: ['application/json']
         formats:
             rss: true
             xml: false
             json: true
+            jsonp: true
         templating_formats:
             html: true
         force_redirects:

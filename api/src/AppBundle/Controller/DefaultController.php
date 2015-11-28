@@ -44,6 +44,7 @@ class DefaultController extends FOSRestController
                 return $this->handleView($this->view([
                     'status' => 'error',
                     'code' => Response::HTTP_METHOD_NOT_ALLOWED,
+                    'message' => sprintf('Property "%s" is not recognized.', $key)
                 ]));
             }
             $propertyAccessor->setValue($entry, $key, $value);
@@ -52,10 +53,13 @@ class DefaultController extends FOSRestController
                 return $this->handleView($this->view($propertyValid));
             }
         }
+        $em = $this->get('doctrine.orm.default_entity_manager');
+        $em->persist($entry);
+        $em->flush($entry);
 
-        return $this->view([
+        return $this->handleView($this->view([
             'status' => 'ok',
             'code' => Response::HTTP_OK
-        ]);
+        ]));
     }
 }

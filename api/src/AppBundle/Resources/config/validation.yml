@@ -1,32 +1,31 @@
 AppBundle\Entity\Restaurant:
     properties:
-        fields:
-            lon:
-                - NotBlank: ~
-                - Range:
-                    min: -180
-                    max: 180
-                - Type:
-                    type: 'float'
-            lat:
-                - NotBlank: ~
-                - Range:
-                    min: -90
-                    max: 90
-                - Type:
-                    type: 'float'
-            name:
-                - NotBlank: ~
-            city:
-                - NotBlank: ~
-            street:
-                - NotBlank: ~
-            postalCode:
-                - Regex:
-                    pattern: "^\d{3}([\-]?\d{2})?$"
-                - NotBlank: ~
-            buildingNumber:
-                - NotBlank: ~
-            apartmentNumber:
-            country:
-                - NotBlank: ~
+        lon:
+            - NotBlank: ~
+            - Range:
+                min: -180
+                max: 180
+            - Type:
+                type: 'float'
+        lat:
+            - NotBlank: ~
+            - Range:
+                min: -90
+                max: 90
+            - Type:
+                type: 'float'
+        name:
+            - NotBlank: ~
+        city:
+            - NotBlank: ~
+        street:
+            - NotBlank: ~
+        postalCode:
+            - Regex:
+                pattern: "^\d{3}([\-]?\d{2})?$"
+            - NotBlank: ~
+        buildingNumber:
+            - NotBlank: ~
+        apartmentNumber:
+        country:
+            - NotBlank: ~

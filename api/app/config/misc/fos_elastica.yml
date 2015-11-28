@@ -6,6 +6,19 @@ fos_elastica:
         burger:
             types:
                 restaurant:
+                    mappings:
+                        lon: ~
+                        lat: ~
+                        name: ~
+                        city: ~
+                        street: ~
+                        postalCode: ~
+                        buildingNumber: ~
+                        apartmentNumber: ~
+                        country: ~
+                        location:
+                            dynamic: 'strict'
+                            type: geo_point
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\Restaurant

@@ -29,12 +29,12 @@ AppBundle\Entity\Restaurant:
             type: decimal
             nullable: false
             precision: 12
-            scale: 3
+            scale: 9
         lat:
             type: decimal
             nullable: false
             precision: 12
-            scale: 3
+            scale: 9
         name:
             type: string
             nullable: false
@@ -75,6 +75,12 @@ AppBundle\Entity\Restaurant:
                 fixed: false
             column: apartment_number
         country:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        location:
             type: string
             nullable: false
             length: 255

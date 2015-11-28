@@ -5,3 +5,5 @@
 /api/web/bundles
 /api/bin
 /.idea
+/frontend/node_modules
+/frontend/bower_components

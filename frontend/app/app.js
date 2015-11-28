@@ -1,10 +1,10 @@
 (function(){
-	var myapp = angular.module('myapp', []);
+	angular.module('myapp', []);
 
-	myapp.controller('mainCtrl', mainCtrl);
+	angular.module('myapp').controller('mainCtrl', mainCtrl);
 
-	function mainCtrl() {
-
+	function mainCtrl(mapService) {
+		mapService.mapService();
 	}
 
 })();

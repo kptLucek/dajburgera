@@ -1,8 +1,9 @@
 {
   "name": "Dajburgera",
   "version": "0.0.1",
-  "keywords": [
-  ],
-  "dependencies": {
+  "keywords": [],
+  "dependencies": {},
+  "devDependencies": {
+    "angular": "~1.4.8"
   }
 }
